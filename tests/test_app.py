@@ -284,7 +284,7 @@ def test_alliance_users_page_search_and_filters(client, app) -> None:
     account_type_filter_index = content.index('name="account_type"')
     alliance_filter_index = content.index('name="alliance"')
     assert search_index < account_type_filter_index < alliance_filter_index
-    assert "Eviseration | Aaron |  | " in content
+    assert "Eviseration | Aaron" in content
     assert "<th>Main</th>" in content
     assert "<th>Secondary</th>" in content
     assert "<th>Farm1</th>" in content
@@ -294,7 +294,7 @@ def test_alliance_users_page_search_and_filters(client, app) -> None:
     baby_farm_index = content.index("Baby Vis Doot Doot (R&amp;S)")
     vis_kid_index = content.index("Vis kid (R&amp;S)")
     assert main_index < secondary_index < baby_farm_index < vis_kid_index
-    assert "AnotherUser | Other |  | " not in content
+    assert "AnotherUser | Other" not in content
 
     filtered = client.get("/alliance-users?search=Vis+kid&account_type=Farm&alliance=TNO")
     assert "No users matched the current search and filters." in filtered.get_data(as_text=True)

@@ -602,8 +602,6 @@ def filter_alliance_users(
                 {
                     "username": user["display_name"],
                     "first_name": user.get("first_name", ""),
-                    "last_name": user.get("last_name", ""),
-                    "email": user.get("email", ""),
                     "account_columns": build_account_columns(filtered_accounts),
                 }
             )
