@@ -12,3 +12,4 @@ build/
 */__pycache__/
 .DS_Store/*
 appdata/*
+mongodb.yaml
