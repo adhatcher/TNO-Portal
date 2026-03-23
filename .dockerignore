@@ -9,6 +9,8 @@ htmlcov
 data
 tests
 Requirements.md
-*/__pycache__/
+*/__pycache__
 docker-compose.yml
 README.md
+.DS_Store
+appdata
