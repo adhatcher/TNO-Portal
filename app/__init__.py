@@ -6,6 +6,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from flask import Flask, Response, flash, g, jsonify, make_response, redirect, render_template, request, session, url_for
 
@@ -16,6 +17,28 @@ from app.storage import DEFAULT_ALLIANCES, DEFAULT_ACCOUNT_TYPES, UserStore, cre
 from app.translations import LANGUAGE_NAMES, TRANSLATIONS
 
 ACCOUNT_TYPE_SORT_ORDER = {"Main": 0, "Secondary": 1, "Farm": 2}
+
+
+def normalize_language(language: str | None, supported_languages: tuple[str, ...]) -> str:
+    """Return a supported language code or the safe default."""
+
+    if language in supported_languages:
+        return language
+    return "en"
+
+
+def normalize_redirect_target(target: str | None, fallback: str) -> str:
+    """Allow redirects only to local application paths."""
+
+    if not target:
+        return fallback
+
+    parsed_target = urlsplit(target)
+    if parsed_target.scheme or parsed_target.netloc:
+        return fallback
+    if not parsed_target.path.startswith("/") or parsed_target.path.startswith("//"):
+        return fallback
+    return target
 
 
 def create_app(config_class: type[Config] = Config) -> Flask:
@@ -403,9 +426,10 @@ def register_routes(app: Flask) -> None:
         if not validate_csrf(request.form.get("csrf_token")):
             return make_response("Invalid CSRF token", 400)
 
-        language = request.form.get("language", "en")
-        if language not in app.config["SUPPORTED_LANGUAGES"]:
-            language = "en"
+        language = normalize_language(
+            request.form.get("language"),
+            app.config["SUPPORTED_LANGUAGES"],
+        )
         current_user = g.get("current_user")
         if current_user:
             user_store.update_profile(
@@ -415,9 +439,10 @@ def register_routes(app: Flask) -> None:
                 current_user.get("email", ""),
                 language,
             )
-        next_path = request.form.get("next_path", url_for("welcome"))
-        if not next_path.startswith("/"):
-            next_path = url_for("welcome")
+        next_path = normalize_redirect_target(
+            request.form.get("next_path"),
+            url_for("welcome"),
+        )
         response = make_response(redirect(next_path))
         response.set_cookie(
             app.config["LANGUAGE_COOKIE_NAME"],
@@ -637,9 +662,10 @@ def set_preference_cookies(app: Flask, response: Response, language: str, userna
     """Set persistent user preference cookies."""
 
     max_age = 60 * 60 * 24 * 365
+    safe_language = normalize_language(language, app.config["SUPPORTED_LANGUAGES"])
     response.set_cookie(
         app.config["LANGUAGE_COOKIE_NAME"],
-        language,
+        safe_language,
         max_age=max_age,
         httponly=True,
         samesite="Lax",
