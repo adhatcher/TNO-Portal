@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "tno-portal"
+version = "0.1.0"
+description = "Flask portal for TNO, TON, and TCF alliance workflows."
+authors = ["Aaron"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "3.1.1"
+gunicorn = "23.0.0"
+prometheus-client = "0.23.1"
+pymongo = "4.14.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "8.4.1"
+coverage = "7.10.6"
+mongomock = "4.3.0"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

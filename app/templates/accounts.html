@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card wide-card">
+    <h1>{{ t.accounts_heading.format(user=accounts_user.display_name) }}</h1>
+    <form method="post" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>{{ t.row_selector }}</th>
+            <th>{{ t.account_name }}</th>
+            <th>{{ t.account_type }}</th>
+            <th>{{ t.alliance }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for account in accounts %}
+            <tr>
+              <td><input type="checkbox" name="selected_rows" value="{{ loop.index0 }}"></td>
+              <td><input type="text" name="account_name" value="{{ account.account_name }}"></td>
+              <td>
+                <select name="account_type">
+                  {% for account_type in account_types %}
+                    <option value="{{ account_type }}" {% if account_type == account.account_type %}selected{% endif %}>
+                      {{ account_type }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td>
+                <select name="alliance">
+                  {% for alliance in alliances %}
+                    <option value="{{ alliance }}" {% if alliance == account.alliance %}selected{% endif %}>
+                      {{ alliance }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="form-actions">
+        <button class="button button-ghost" name="action" value="delete" type="submit">{{ t.delete_selected }}</button>
+        <button class="button button-secondary" name="action" value="add" type="submit">{{ t.add_row }}</button>
+        <button class="button button-primary" name="action" value="save" type="submit">{{ t.save_accounts }}</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

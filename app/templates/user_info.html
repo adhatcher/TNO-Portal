@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card auth-card">
+    <h1>{{ t.user_info_heading }}</h1>
+    <form method="post" id="user-info-form" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+      <label for="username">{{ t.username }}</label>
+      <input id="username" type="text" value="{{ profile_user.display_name }}" readonly>
+
+      <label for="first_name">{{ t.first_name }}</label>
+      <input id="first_name" name="first_name" type="text" value="{{ profile_user.first_name }}" required>
+
+      <label for="last_name">{{ t.last_name }}</label>
+      <input id="last_name" name="last_name" type="text" value="{{ profile_user.last_name }}">
+
+      <label for="email">{{ t.email }}</label>
+      <input id="email" name="email" type="email" value="{{ profile_user.email }}">
+
+      <label for="preferred_language">{{ t.preferred_language }}</label>
+      <select id="preferred_language" name="preferred_language">
+        <option value=""></option>
+        {% for code, name in language_names.items() %}
+          <option value="{{ code }}" {% if code == profile_user.preferred_language %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+
+      <div class="form-actions">
+        <button class="button button-primary" name="action" value="save_info" type="submit">{{ t.save_info }}</button>
+      </div>
+
+      <hr class="section-divider">
+
+      <label for="new_password">{{ t.new_password }}</label>
+      <div class="password-row">
+        <input id="new_password" name="new_password" type="password" autocomplete="new-password">
+        <button
+          class="toggle-password"
+          type="button"
+          data-target="new_password"
+          data-show-label="{{ t.show }}"
+          data-hide-label="{{ t.hide }}"
+        >{{ t.show }}</button>
+      </div>
+
+      <label for="confirm_new_password">{{ t.confirm_new_password }}</label>
+      <div class="password-row">
+        <input id="confirm_new_password" name="confirm_new_password" type="password" autocomplete="new-password">
+        <button
+          class="toggle-password"
+          type="button"
+          data-target="confirm_new_password"
+          data-show-label="{{ t.show }}"
+          data-hide-label="{{ t.hide }}"
+        >{{ t.show }}</button>
+      </div>
+
+      <div class="status-row">
+        <span>{{ t.password_status }}</span>
+        <strong
+          id="reset-password-status"
+          data-true-label="{{ t.password_true }}"
+          data-false-label="{{ t.password_false }}"
+        ></strong>
+      </div>
+
+      <div class="form-actions">
+        <button
+          class="button button-secondary"
+          id="reset-password-button"
+          name="action"
+          value="reset_password"
+          type="submit"
+          disabled
+        >{{ t.reset_password }}</button>
+        <button
+          class="button button-ghost"
+          name="action"
+          value="delete_user"
+          type="submit"
+          {% if delete_user_disabled %}disabled{% endif %}
+        >{{ t.delete_user }}</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,13 @@
+services:
+  tno:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - SECRET_KEY=change-me-in-production
+      - SESSION_COOKIE_SECURE=false
+      - MONGO_URI=mongodb://192.168.215.2:27017/
+      - MONGO_DB_NAME=TNO-MongoDB
+      - MONGO_COLLECTION_NAME=users

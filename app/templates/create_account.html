@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card auth-card">
+    <h1>{{ t.account_heading }}</h1>
+    <form method="post" id="create-account-form" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+      <label for="username">{{ t.username }}</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        autocomplete="username"
+        data-availability-url="{{ url_for('username_available') }}"
+        required
+      >
+      <p id="username-feedback" class="field-feedback" aria-live="polite"></p>
+
+      <label for="password">{{ t.password }}</label>
+      <div class="password-row">
+        <input id="password" name="password" type="password" autocomplete="new-password" required>
+        <button
+          class="toggle-password"
+          type="button"
+          data-target="password"
+          data-show-label="{{ t.show }}"
+          data-hide-label="{{ t.hide }}"
+        >{{ t.show }}</button>
+      </div>
+
+      <label for="confirm_password">{{ t.confirm_password }}</label>
+      <div class="password-row">
+        <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required>
+        <button
+          class="toggle-password"
+          type="button"
+          data-target="confirm_password"
+          data-show-label="{{ t.show }}"
+          data-hide-label="{{ t.hide }}"
+        >{{ t.show }}</button>
+      </div>
+
+      <p class="password-help">{{ t.password_help }}</p>
+      <div class="status-row">
+        <span>{{ t.password_status }}</span>
+        <strong
+          id="password-status"
+          data-true-label="{{ t.password_true }}"
+          data-false-label="{{ t.password_false }}"
+        ></strong>
+      </div>
+
+      <div class="form-actions">
+        <button class="button button-primary" id="create-account-button" type="submit" disabled>
+          {{ t.create_account }}
+        </button>
+        <a class="button button-secondary" href="{{ url_for('welcome') }}">{{ t.back }}</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

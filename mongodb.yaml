@@ -1,0 +1,7 @@
+docker run \
+  -d \
+  --name='TNO-MongoDB-DEV' \
+  --net='bridge' \
+  -e TZ="America/New_York" \
+  -v '/Users/aaron/Documents/Development/apps/tno/appdata/MongoDB':'/data/db':'rw' \
+  'mongo'

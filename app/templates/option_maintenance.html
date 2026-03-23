@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card wide-card">
+    <h1>{{ t.maintenance_heading.format(entity=entity_label.replace('_', ' ').title()) }}</h1>
+
+    <form method="post" class="inline-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="action" value="add">
+      <input type="text" name="value" placeholder="{{ t.add_value }}">
+      <button class="button button-primary" type="submit">{{ t.add_value }}</button>
+    </form>
+
+    <div class="maintenance-list">
+      {% for item in items %}
+        <form method="post" class="inline-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <input type="hidden" name="original_value" value="{{ item }}">
+          <input type="text" name="value" value="{{ item }}">
+          <button class="button button-secondary" name="action" value="update" type="submit">{{ t.update }}</button>
+          <button class="button button-ghost" name="action" value="delete" type="submit">{{ t.delete }}</button>
+        </form>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="eyebrow">{{ t.alliance_hub }}</p>
+      <h1>
+        {% if remembered_user %}
+          {{ t.welcome_user.format(user=remembered_user) }}
+        {% else %}
+          {{ t.welcome_guest }}
+        {% endif %}
+      </h1>
+      <p class="hero-copy">{{ t.welcome_hint }}</p>
+      {% if remembered_user %}
+        <p class="remembered-user">{{ t.remembered_user.format(user=remembered_user) }}</p>
+      {% endif %}
+      <div class="actions">
+        <a class="button button-primary" href="{{ url_for('login') }}">{{ t.login }}</a>
+        <a class="button button-secondary" href="{{ url_for('access_code') }}">{{ t.create_account }}</a>
+      </div>
+      {% if remembered_user %}
+        <form method="post" action="{{ url_for('logout') }}" class="logout-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <button class="button button-ghost" type="submit">{{ t.logout }}</button>
+        </form>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

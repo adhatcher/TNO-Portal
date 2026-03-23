@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card auth-card">
+    <h1>{{ t.login_heading }}</h1>
+    <form method="post" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="username">{{ t.username }}</label>
+      <input id="username" name="username" type="text" autocomplete="username" required>
+
+      <label for="password">{{ t.password }}</label>
+      <div class="password-row">
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button
+          class="toggle-password"
+          type="button"
+          data-target="password"
+          data-show-label="{{ t.show }}"
+          data-hide-label="{{ t.hide }}"
+        >{{ t.show }}</button>
+      </div>
+
+      <div class="form-actions">
+        <button class="button button-primary" type="submit">{{ t.login }}</button>
+        <a class="button button-secondary" href="{{ url_for('welcome') }}">{{ t.back }}</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

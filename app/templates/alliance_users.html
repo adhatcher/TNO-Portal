@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card wide-card">
+    <h1>{{ t.alliance_users_heading }}</h1>
+
+    <form method="get" class="filter-grid" novalidate>
+      <div class="filter-search filter-search-wide">
+        <label for="search">{{ t.search }}</label>
+        <input id="search" name="search" type="text" value="{{ search_term }}">
+      </div>
+      <div>
+        <label for="account_type_filter">{{ t.account_type_filter }}</label>
+        <select id="account_type_filter" name="account_type">
+          {% for option in ["All", "Main", "Secondary", "Farm"] %}
+            <option value="{{ option }}" {% if option == selected_account_type %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="alliance_filter">{{ t.alliance_filter }}</label>
+        <select id="alliance_filter" name="alliance">
+          {% for option in ["All", "TNO", "TCF", "TON"] %}
+            <option value="{{ option }}" {% if option == selected_alliance %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button class="button button-primary" type="submit">{{ t.submit }}</button>
+      </div>
+    </form>
+
+    {% if users %}
+      <div class="directory-list">
+        {% for user in users %}
+          <article class="directory-user">
+            <p class="directory-user-meta">{{ user.username }} | {{ user.first_name }} | {{ user.last_name }} | {{ user.email }}</p>
+            <table class="data-table alliance-user-table">
+              <thead>
+                <tr>
+                  {% for column in user.account_columns %}
+                    <th>{{ column.header }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {% for column in user.account_columns %}
+                    <td>{{ column.value }}</td>
+                  {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>{{ t.no_alliance_users }}</p>
+    {% endif %}
+  </section>
+{% endblock %}

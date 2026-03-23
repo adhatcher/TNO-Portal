@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card auth-card">
+    <h1>{{ t.admin_heading }}</h1>
+    <div class="admin-links">
+      <a class="button button-primary" href="{{ url_for('admin_account_types') }}">{{ t.account_type_maintenance }}</a>
+      <a class="button button-secondary" href="{{ url_for('admin_alliances') }}">{{ t.alliance_maintenance }}</a>
+      <a class="button button-ghost" href="{{ url_for('admin_users') }}">{{ t.user_admin }}</a>
+    </div>
+  </section>
+{% endblock %}

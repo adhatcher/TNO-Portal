@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card wide-card">
+    <h1>{{ t.user_admin }}</h1>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>{{ t.row_selector }}</th>
+            <th>{{ t.username }}</th>
+            <th>{{ t.first_name }}</th>
+            <th>{{ t.last_name }}</th>
+            <th>{{ t.email }}</th>
+            <th>{{ t.user_type }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td><input type="checkbox" name="selected_users" value="{{ user.username }}"></td>
+              <td>
+                {{ user.display_name }}
+                <input type="hidden" name="username" value="{{ user.username }}">
+              </td>
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.last_name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <select name="user_type">
+                  <option value="User" {% if user.user_type == "User" %}selected{% endif %}>User</option>
+                  <option value="Admin" {% if user.user_type == "Admin" %}selected{% endif %}>Admin</option>
+                </select>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="form-actions">
+        <button class="button button-primary" name="action" value="save" type="submit">{{ t.save_info }}</button>
+        <button class="button button-ghost" name="action" value="delete" type="submit">{{ t.delete_users }}</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

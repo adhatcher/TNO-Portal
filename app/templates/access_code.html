@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card auth-card">
+    <h1>{{ t.create_account }}</h1>
+    <p>{{ t.invite_prompt }}</p>
+    <form method="post" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="access_code">{{ t.invite_label }}</label>
+      <input id="access_code" name="access_code" type="text" maxlength="10" required>
+      <div class="form-actions">
+        <button class="button button-primary" type="submit">{{ t.continue }}</button>
+        <a class="button button-secondary" href="{{ url_for('welcome') }}">{{ t.back }}</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

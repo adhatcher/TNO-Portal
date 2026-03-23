@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="{{ current_language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ t.app_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="{{ url_for('welcome') }}">TNO</a>
+        {% if current_user %}
+          <nav class="nav-links">
+            <a href="{{ url_for('user_info') }}">{{ t.nav_user_info }}</a>
+            <a href="{{ url_for('accounts') }}">{{ t.nav_accounts }}</a>
+            <a href="{{ url_for('alliance_users') }}">{{ t.nav_alliance_users }}</a>
+            {% if is_admin %}
+              <a href="{{ url_for('admin_home') }}">{{ t.nav_admin }}</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+        <form class="language-form" method="post" action="{{ url_for('set_language') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <input type="hidden" name="next_path" value="{{ current_path }}">
+          <label for="language">{{ t.language_settings }}</label>
+          <select id="language" name="language" data-language-selector="true">
+            {% for code, name in language_names.items() %}
+              <option value="{{ code }}" {% if code == current_language %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </header>
+
+      <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-stack">
+              {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+  </html>
