@@ -48,11 +48,31 @@ Run tests:
 make test
 ```
 
+Run local translation sync through Ollama, then tests:
+
+```bash
+make test-local
+```
+
+Generate or refresh translation drafts only:
+
+```bash
+make translate
+```
+
+Force a full regeneration for the non-English files:
+
+```bash
+make translate-force
+```
+
 Run coverage:
 
 ```bash
 make coverage
 ```
+
+For local Ollama configuration, copy `.env.ollama.example` to `.env.ollama` and set `OLLAMA_URL` / `OLLAMA_MODEL`. The plain `make test` target remains CI-safe and does not require Ollama.
 
 ## Docker
 

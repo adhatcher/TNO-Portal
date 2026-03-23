@@ -25,5 +25,5 @@ class Config:
     SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "false").lower() == "true"
     REMEMBER_COOKIE_NAME = "tno_username"
     LANGUAGE_COOKIE_NAME = "tno_language"
-    SUPPORTED_LANGUAGES = ("en", "fr", "es", "ru", "pt")
+    SUPPORTED_LANGUAGES = ("en", "fr", "es", "ru", "pt", "de")
     INVITE_CODE = "TNO"

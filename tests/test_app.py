@@ -15,14 +15,14 @@ def extract_csrf_token(response_text: str) -> str:
     return match.group(1)
 
 
-def change_language(client, page_path: str) -> str:
+def change_language(client, page_path: str, language: str = "fr") -> str:
     """Change the UI language from a given page and return refreshed HTML."""
 
     page = client.get(page_path)
     csrf_token = extract_csrf_token(page.get_data(as_text=True))
     response = client.post(
         "/preferences/language",
-        data={"language": "fr", "csrf_token": csrf_token, "next_path": page_path},
+        data={"language": language, "csrf_token": csrf_token, "next_path": page_path},
         follow_redirects=True,
     )
 
@@ -137,6 +137,13 @@ def test_language_change_refreshes_create_account_page_in_selected_language(clie
     assert "Creez votre compte" in content
     assert "Verifier le mot de passe" in content
     assert "Parametres de langue" in content
+
+
+def test_language_change_refreshes_public_pages_in_german(client) -> None:
+    content = change_language(client, "/", language="de")
+
+    assert "Willkommen im Zuhause von TNO" in content
+    assert "Spracheinstellungen" in content
 
 
 def test_access_code_required_before_signup(client) -> None:

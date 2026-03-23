@@ -13,3 +13,5 @@ build/
 .DS_Store/*
 appdata/*
 mongodb.yaml
+.env.ollama
+.env.local
