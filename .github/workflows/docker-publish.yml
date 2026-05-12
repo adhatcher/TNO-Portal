@@ -71,7 +71,7 @@ jobs:
           echo "New tag will be: $NEW_TAG"
 
       # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v7.0.0
+      #   uses: docker/build-push-action@v7.1.0
       #   with:
       #     context: .
       #     push: true
@@ -82,7 +82,7 @@ jobs:
       #     cache-to: type=gha,mode=max
       
       - name: Build and push Docker image
-        uses: docker/build-push-action@v7.0.0
+        uses: docker/build-push-action@v7.1.0
         with:
           context: .
           push: true
