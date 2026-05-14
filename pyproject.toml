@@ -14,7 +14,7 @@ pymongo = "4.16.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "9.0.3"
-coverage = "7.13.5"
+coverage = "7.14.0"
 mongomock = "4.3.0"
 
 [tool.pytest.ini_options]
