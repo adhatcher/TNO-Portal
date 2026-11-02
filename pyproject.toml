@@ -13,7 +13,7 @@ prometheus-client = "0.26.0"
 pymongo = "4.19.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "9.1.1"
+pytest = "9.2.0"
 coverage = "7.16.0"
 mongomock = "4.3.0"
 pygments = ">=2.20.0,<3.0.0"
